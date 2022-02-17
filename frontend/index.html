@@ -1,0 +1,29 @@
+<html>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        inserire mail:
+        <input type="text" id="mail" placeholder="email"></br>
+        inserire password:
+        <input type="password" id="psw" placeholder="password">
+        <button id="b1">send</button>
+        <script>
+            $("#b1").click(function(){
+                let mail = $("#mail").val();
+                let psw = $("#psw").val();
+                if(mail && psw) {
+                    console.log("value:", mail, psw);
+                    $.ajax({
+                        url: "http://localhost:3000/api/login?email="+mail+"&password="+psw,
+                        method: "GET",
+                        success: function(data){
+                            console.log("success", data);
+                        },
+                        error: function(err){
+                            console.log("error", err);
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
