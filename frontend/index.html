@@ -9,11 +9,11 @@
         <script>
             $("#b1").click(function(){
                 let mail = $("#mail").val();
-                let psw = $("#psw").val();
+                let password = $("#psw").val();
                 if(mail && psw) {
-                    console.log("value:", mail, psw);
+                    console.log("value:", mail, password);
                     $.ajax({
-                        url: "http://localhost:3000/api/login?email="+mail+"&password="+psw,
+                        url: "http://localhost:3000/api/login?mail="+mail+"&password="+password,
                         method: "GET",
                         success: function(data){
                             console.log("success", data);
