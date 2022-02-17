@@ -1,4 +1,5 @@
 var express = require("express");
+var cors = require("cors");
 var apiServer = express();
 apiServer.use(cors());
 
@@ -10,9 +11,10 @@ apiServer.listen(port, host, ()=>{
 
 apiServer.get("/api/login", (req, res) => {
     console.log("recived:", req.query.mail, req.query.password);
-    if(req.query.mail==="mattia" && req.query.password==="pogliani"){
-        res.sendStatus(200);
-    } else{
-        res.status(400);
+    if(req.query.mail==="diego" && req.query.password==="siliprandi"){
+        res.statusCode = 200;
+        res.json({"message": "Login effettuato"});
+    } else {
+        res.sendStatus(400);
     }
 });

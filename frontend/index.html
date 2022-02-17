@@ -17,9 +17,11 @@
                         method: "GET",
                         success: function(data){
                             console.log("success", data);
+                            $("body").css("background-color", "green");
                         },
                         error: function(err){
                             console.log("error", err);
+                            $("body").css("background-color", "red");
                         }
                     });
                 }
