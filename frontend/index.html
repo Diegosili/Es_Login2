@@ -5,9 +5,11 @@
         <input type="text" id="mail" placeholder="email"></br>
         inserire password:
         <input type="password" id="psw" placeholder="password">
-        <button id="b1">send</button>
+        <button id="in">sign-in</button>
+        <button id="up">sign-up</button>
+        <h1 id="h1"></h1>
         <script>
-            $("#b1").click(function(){
+            $("#in").click(function(){
                 let mail = $("#mail").val();
                 let password = $("#psw").val();
                 if(mail && psw) {
@@ -22,6 +24,25 @@
                         error: function(err){
                             console.log("error", err);
                             $("body").css("background-color", "red");
+                        }
+                    });
+                }
+            });
+            $("#up").click(function(){
+                let mail = $("#mail").val();
+                let password = $("#psw").val();
+                if(mail && psw) {
+                    console.log("value:", mail, password);
+                    $.ajax({
+                        url: "http://localhost:3000/api/register?mail="+mail+"&password="+password,
+                        method: "GET",
+                        success: function(data){
+                            console.log("success", data);
+                            $("#h1").html("Registration succeded");
+                        },
+                        error: function(err){
+                            console.log("error", err);
+                            $("#h1").css("Registration failed");
                         }
                     });
                 }
