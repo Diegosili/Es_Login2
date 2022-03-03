@@ -1,8 +1,16 @@
 var express = require("express");
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'siliprandi.diego.tave.osdb.it',
+    user: 'c192_siliprandi',
+    password: 'Az-65956',
+    database: 'c192_DSiliprandi'
+  });
 var cors = require("cors");
 var apiServer = express();
 apiServer.use(cors());
 var fs = require("fs");
+const { request } = require("http");
 
 var host = "localhost";
 var port = 3000;
@@ -11,36 +19,41 @@ apiServer.listen(port, host, ()=>{
 });
 
 apiServer.get("/api/login", (req, res) => {
-    fs.readFile("users.json", (err, data)=>{
-        if(err){
-            console.log(err);
-            res.status(500).json({message: "errore generico"});
-        } else {
-            var login = false;
-            var datajson = JSON.parse(data);
-            datajson.forEach((dt) => {
-                if(req.query.mail===dt['mail'] && req.query.password===dt['password']){
-                    res.status(200).json({"message": "Login succeded"});
-                    login = true;
-                    return;
-                }
-            });
-            if(login) res.status(400).json({"message": "Login failed"});
+    console.log(req.query.mail, req.query.password);
+    connection.query(
+        "SELECT * FROM Users WHERE mail = '"+req.query.mail+"' AND password = '"+req.query.password+"';",
+        function(err, results, fields) {
+            if(err){
+                console.log(err);
+                res.status(500).json({message: "Login failed"});
+            } else if(Object.keys(res).length){
+                res.status(200).json({"message": "Login succeded"});
+            };
+            res.status(200).json({"message": "Login failed"});
         }
-    });
+    );
 });
 
 apiServer.get("/api/register", (req, res) => {
-    fs.readFile("users.json", (err, data)=>{
-        if(err){
-            console.log(err);
-            res.status(500).json({message: "errore generico"});
-        } else {
-            var dtjson = JSON.parse(data);
-            dtjson.push({"mail":req.query.mail,"password":req.query.password});
-            fs.writeFile("users.json", JSON.stringify(dtjson), (err)=>{
-                if(err) res.status(200).json({message:"sign-up failed"});
-            });
+    console.log(req.query.mail, req.query.password);
+    connection.query(
+        "INSERT INTO Users VALUES ('"+req.query.mail+"', '"+req.query.password+"');",
+        function(err, results, fields) {
+            if(err){
+                console.log(err);
+                res.status(500).json({message: "errore generico"});
+            } else {
+                res.status(200).json({"message": "Sign-Up succeded"});
+            };
         }
-    });
+    );
+});
+
+apiServer.get("/api/access", (req, res) => {
+    connection.query(
+        "SELECT * FROM Users WHERE mail ='"+req.query.mail+"';",
+        function(err, results, fields) {
+
+        }
+    );
 });

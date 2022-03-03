@@ -44,11 +44,11 @@
                         method: "GET",
                         success: function(data){
                             console.log("success", data);
-                            $("#h1").html("Registration succeded");
+                            $("body").css("background-color", "green");
                         },
                         error: function(err){
                             console.log("error", err);
-                            $("#h1").css("Registration failed");
+                            $("body").css("background-color", "red");
                         }
                     });
                 }
