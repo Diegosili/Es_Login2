@@ -26,6 +26,9 @@
                         success: function(data){
                             console.log("success", data);
                             $("body").css("background-color", "green");
+//                            window.location.href="home.html"; PER POTER PREMERE TASTO BACK
+                            window.location.replace("home.html");
+                            window.localStorage.setItem("mail", mail);
                         },
                         error: function(err){
                             console.log("error", err);

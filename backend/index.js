@@ -37,11 +37,12 @@ apiServer.get("/api/login", (req, res) => {
 apiServer.get("/api/register", (req, res) => {
     console.log(req.query.mail, req.query.password);
     connection.query(
-        "INSERT INTO Users VALUES ('"+req.query.mail+"', '"+req.query.password+"');",
+        "INSERT INTO Users VALUES (?, ?);",
+        [req.query.mail, req.query.password],
         function(err, results, fields) {
             if(err){
                 console.log(err);
-                res.status(500).json({message: "errore generico"});
+                res.status(500).json({"message": "errore generico"});
             } else {
                 res.status(200).json({"message": "Sign-Up succeded"});
             };
@@ -54,6 +55,20 @@ apiServer.get("/api/access", (req, res) => {
         "SELECT * FROM Users WHERE mail ='"+req.query.mail+"';",
         function(err, results, fields) {
 
+        }
+    );
+});
+
+apiServer.get("/api/home", (req, res) => {
+    connection.query(
+        "SELECT * FROM Voti WHERE mail ='"+req.query.mail+"';",
+        function(err, result, fields) {
+            if(err){
+                console.log(err);
+                res.status(500).json({"message": "voti non presenti"});
+            } else {
+                res.status(200).json({"message": ""});
+            }
         }
     );
 });
